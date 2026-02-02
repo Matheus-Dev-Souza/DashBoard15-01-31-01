@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Performance Meta Ads + Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgb(0 0 0 / 0.1); border: 1px solid #e2e8f0; }
+        .metric-value { font-size: 1.5rem; font-weight: 700; color: #1e293b; }
+        .metric-label { font-size: 0.75rem; color: #64748b; font-weight: 600; text-transform: uppercase; }
+        .status-badge { padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .status-excelente { background: #dcfce7; color: #166534; }
+        .status-alerta { background: #fee2e2; color: #991b1b; }
+        .section-title { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 1.5rem; display: flex; gap: .5rem; flex-wrap: wrap; }
+    </style>
+</head>
+
+<body class="p-4 sm:p-6 md:p-8">
+<div class="max-w-6xl mx-auto">
+
+    <!-- Header -->
+    <header class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Dashboard Consolidado</h1>
+            <p class="text-slate-500 text-sm sm:text-base">
+                Tráfego Pago + Comportamento no Site (15/01 a 31/01)
+            </p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+            <span class="status-badge status-excelente">Tráfego Barato</span>
+            <span class="status-badge status-alerta">Ajustar Conversão no Site</span>
+        </div>
+    </header>
+
+    <!-- Performance Ads -->
+    <section class="mb-10">
+        <h2 class="section-title">🚀 Performance de Anúncios (Meta Ads)</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="card p-5">
+                <p class="metric-label">Investido</p>
+                <p class="metric-value">R$ 1.080,63</p>
+            </div>
+            <div class="card p-5 border-l-4 border-blue-500">
+                <p class="metric-label">Impressões</p>
+                <p class="metric-value">289.816</p>
+            </div>
+            <div class="card p-5 border-l-4 border-indigo-500">
+                <p class="metric-label">Alcance Único</p>
+                <p class="metric-value">119.738</p>
+            </div>
+            <div class="card p-5 border-l-4 border-emerald-500">
+                <p class="metric-label">CPM Médio</p>
+                <p class="metric-value">R$ 3,73</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Site -->
+    <section class="mb-10">
+        <h2 class="section-title">💻 Comportamento no Site (/contatos)</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Engajamento -->
+            <div class="card p-6 bg-slate-50">
+                <h3 class="font-bold mb-4">Engajamento Geral</h3>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <p class="metric-label">Duração Média</p>
+                        <p class="text-lg font-bold">3m 27s <span class="text-red-500 text-xs">↓ 54%</span></p>
+                    </div>
+                    <div>
+                        <p class="metric-label">Taxa de Rejeição</p>
+                        <p class="text-lg font-bold">88% <span class="text-red-500 text-xs">↑ 5%</span></p>
+                    </div>
+                    <div>
+                        <p class="metric-label">Páginas / Sessão</p>
+                        <p class="text-lg font-bold">1,1</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Funil -->
+            <div class="card p-6">
+                <h3 class="font-bold text-center mb-4">Cliques na Página</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span>Visitas</span><strong>1.010</strong>
+                    </div>
+                    <div class="w-full bg-slate-200 h-3 rounded">
+                        <div class="bg-indigo-600 h-full w-full"></div>
+                    </div>
+
+                    <div class="flex justify-between mt-4">
+                        <span>Cliques</span><strong>114</strong>
+                    </div>
+                    <div class="w-full bg-slate-200 h-3 rounded">
+                        <div class="bg-emerald-500 h-full" style="width:11.2%"></div>
+                    </div>
+
+                    <p class="text-center text-xs text-slate-500 mt-2">
+                        Conversão: 11,2%
+                    </p>
+                </div>
+            </div>
+
+            <!-- Ranking -->
+            <div class="card p-6">
+                <h3 class="font-bold mb-4">Cliques por Vendedor</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between p-3 bg-indigo-50 rounded">
+                        <span>Daniel</span><strong>80</strong>
+                    </div>
+                    <div class="flex justify-between p-3 bg-slate-50 rounded">
+                        <span>Junior</span><strong>66</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="card p-6">
+            <h2 class="font-bold mb-4">Distribuição de Gasto</h2>
+            <div class="relative h-64">
+                <canvas id="spendingChart"></canvas>
+            </div>
+        </div>
+
+        <div class="card p-6 text-center">
+            <h2 class="font-bold mb-4">Gap de Performance</h2>
+            <p class="text-sm text-red-700">
+                Apenas 1% do tráfego chega com intenção de contato.
+            </p>
+        </div>
+    </section>
+
+</div>
+
+<script>
+const ctx = document.getElementById('spendingChart');
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Bolão', 'Stories', 'Outros'],
+        datasets: [{
+            data: [652, 260, 168],
+            backgroundColor: ['#4f46e5','#818cf8','#cbd5e1']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { position: 'bottom' } }
+    }
+});
+</script>
+
+</body>
+</html>
