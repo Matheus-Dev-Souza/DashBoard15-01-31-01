@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Performance - Setebit (Março)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chosen Palette: Light Slate Base, White Cards, Accents in Emerald (Success), Blue (Corporate), Rose (Warning - Aggravated) -->
+    <!-- Application Structure Plan: Mantida a estrutura de 5 seções do dashboard anterior. A grande mudança está na narrativa dos dados: O investimento quase triplicou, o volume de tráfego foi massivo, mas as vendas estagnaram. A seção "O Gargalo" agora serve como um alerta máximo de perda financeira (Leaky Bucket) focado no atendimento. -->
+    <!-- Visualization & Content Choices:
+    1. Resumo -> Cards Numéricos -> ROAS caiu para 6.5x devido ao aumento de gasto sem novas vendas.
+    2. Tráfego -> Barras Horizontais -> Mostra a eficiência contínua do Meta Ads (CPC de R$0,23).
+    3. Gargalo -> Gráfico Misto -> Evidencia o aumento drástico de leads para o Daniel (54) vs Junior (40) e o abismo no faturamento (0 vs 21k).
+    4. Vendas -> Doughnut -> Mantido (faturamento não alterou).
+    5. Ações -> Accordion -> Foco total em travar a distribuição de leads para o vendedor que não converte.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 280px;
+            }
+        }
+
+        .stat-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .accordion-content.active {
+            max-height: 500px;
+        }
+        
+        /* Efeito de pulso para alerta crítico */
+        .pulse-alert {
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl mr-2">&#x1F4CA;</span>
+                    <span class="font-bold text-xl tracking-tight text-slate-800">Setebit <span class="font-light text-slate-500">Analytics</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#resumo" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Visão Geral</a>
+                    <a href="#trafego" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Tráfego (Meta)</a>
+                    <a href="#gargalo" class="text-rose-600 hover:text-rose-800 font-bold transition-colors">Alerta de Fugas</a>
+                    <a href="#vendas" class="text-slate-600 hover:text-blue-600 font-medium transition-colors">Vendas Realizadas</a>
+                    <a href="#acao" class="bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors">Decisões</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-bold text-slate-900 mb-2">Relatório de Evolução e Retenção</h1>
+            <p class="text-lg text-slate-600">Período analisado: <span class="font-semibold text-blue-700">15 de Fev a 13 de Mar de 2026</span></p>
+        </header>
+
+        <section id="resumo" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold border-b-2 border-slate-400 pb-2 inline-block">1. O Cenário Atual (Investimento vs Retorno)</h2>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    Neste ciclo, escalamos significativamente o investimento em tráfego pago. As campanhas entregaram um volume massivo de impressões e cliques a um custo muito baixo. <strong>Contudo, o faturamento da empresa estagnou.</strong> O ROAS diminuiu, o que indica que o marketing enviou mais clientes, mas a equipe comercial não conseguiu fechar novos negócios.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="stat-card bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-blue-500"></div>
+                    <span class="text-4xl mb-3">&#x1F4C8;</span>
+                    <h3 class="text-sm uppercase tracking-wider text-slate-500 font-semibold mb-1">Total Investido (Meta Ads)</h3>
+                    <p class="text-3xl font-bold text-slate-800">R$ 3.235,28</p>
+                    <p class="text-xs text-rose-500 font-medium mt-2">&#x2191; Aumento de R$ 1.978 no gasto</p>
+                </div>
+
+                <div class="stat-card bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-slate-400"></div>
+                    <span class="text-4xl mb-3">&#x1F4B0;</span>
+                    <h3 class="text-sm uppercase tracking-wider text-slate-600 font-semibold mb-1">Faturamento Bruto</h3>
+                    <p class="text-4xl font-bold text-slate-700">R$ 21.000,00</p>
+                    <p class="text-xs text-slate-500 mt-2 font-medium">&#x2194; Estagnado (Sem novas vendas)</p>
+                </div>
+
+                <div class="stat-card bg-slate-800 rounded-xl p-6 shadow-md flex flex-col justify-center items-center text-center text-white relative">
+                    <span class="text-4xl mb-3">&#x1F504;</span>
+                    <h3 class="text-sm uppercase tracking-wider text-slate-300 font-semibold mb-1">Novo Retorno (ROAS)</h3>
+                    <p class="text-5xl font-bold">6,49x</p>
+                    <p class="text-sm text-slate-400 mt-2">Era 16,7x. A conversão despencou.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="trafego" class="mb-16 scroll-mt-24">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold border-b-2 border-blue-500 pb-2 inline-block">2. Desempenho do Tráfego (A Máquina Funciona)</h2>
+                <p class="mt-4 text-slate-600 leading-relaxed">
+                    Os dados do Meta Ads provam que o problema não é a atração. O marketing gerou mais de 400 mil impressões e levou quase 14 mil pessoas para a página. O custo por clique de R$ 0,23 é excelente para o nicho B2B de alto ticket.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-4">&#x1F3AF; Resultados da Escala</h3>
+                    <ul class="space-y-4">
+                        <li class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="text-slate-600">Impressões Totais</span>
+                            <span class="font-bold text-lg">407.130</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                            <span class="text-slate-600">Cliques no Link (Tráfego)</span>
+                            <span class="font-bold text-lg">13.682</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-emerald-50 text-emerald-900 rounded-lg border border-emerald-100">
+                            <span class="font-medium">Custo por Clique (CPC Geral)</span>
+                            <span class="font-bold text-xl">R$ 0,23</span>
+                        </li>
+                        <li class="flex justify-between items-center p-3 bg-slate-50 rounded-lg border border-slate-200">
+                            <span class="font-medium text-slate-600">Taxa de Clique (CTR)</span>
+                            <span class="font-bold text-lg text-slate-800">3,36%</span>
+                        </li>
+                    </ul>
+
+                    <div class="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 text-blue-900 rounded-r-lg text-sm">
+                        <p><strong>&#x1F4A1; Insight:</strong> O anúncio <strong>"pagina home + carrossel"</strong> gerou incríveis <strong>2.434 contatos no site</strong> a um custo absurdamente baixo de R$ 0,42 por lead. O tráfego está abundante.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
+                    <h3 class="text-lg font-semibold text-slate-800 mb-4 text-center">Top Anúncios (Gasto vs Eficiência)</h3>
+                    <div class="chart-container">
+                        <canvas id="adsChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-slate-500 mt-2">Comparamos os anúncios que mais consumiram verba. Nota-se o CPL (Custo por Contato) baixíssimo das campanhas ativas contra a antiga campanha de Stories.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gargalo" class="mb-16 scroll-mt-24">
+            <div class="bg-rose-50 border-2 border-rose-300 rounded-2xl p-6 md:p-10 shadow-md relative overflow-hidden pulse-alert">
+                <div class="absolute -top-4 -right-4 p-4 opacity-10 text-9xl">&#x1F6A8;</div>
+                
+                <div class="mb-6 relative z-10">
+                    <h2 class="text-3xl font-bold text-rose-800 pb-2 inline-block">3. ALERTA: O Balde Furado no Comercial</h2>
+                    <p class="mt-4 text-slate-800 leading-relaxed font-medium text-lg">
+                        Os dados cruzados do Wix Analytics com o faturamento revelam uma situação crítica. O marketing enviou um grande volume de leads quentes, mas eles estão sendo desperdiçados no atendimento via WhatsApp.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-rose-100">
+                        <h4 class="text-center font-bold text-slate-700 mb-2">Cliques no WhatsApp vs Faturamento</h4>
+                        <div class="chart-container">
+                            <canvas id="gapChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col justify-center space-y-6">
+                        <div class="bg-white p-5 rounded-xl border-l-4 border-rose-600 shadow-sm">
+                            <h4 class="font-bold text-rose-800 text-lg mb-2">Desperdício de Oportunidades</h4>
+                            <p class="text-slate-700">No período de Fev a Março, o <strong>Vendedor Daniel recebeu 54 leads</strong> diretamente em seu botão de WhatsApp (57% de todas as oportunidades da página de contato).</p>
+                            <p class="text-xl font-black text-rose-600 mt-2">Vendas do Daniel: R$ 0,00</p>
+                        </div>
+                        
+                        <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-500 shadow-sm">
+                            <h4 class="font-bold text-emerald-800 text-lg mb-2">A Prova da Qualidade</h4>
+                            <p class="text-slate-700">O <strong>Vendedor Junior recebeu apenas 40 leads</strong>. Com menos oportunidades, ele gerou todo o faturamento da empresa.</p>
+                            <p class="text-xl font-black text-emerald-600 mt-2">Vendas do Junior: R$ 21.000,00</p>
+                        </div>
+
+                        <div class="bg-rose-700 text-white p-4 rounded-lg font-semibold text-center text-lg shadow-inner">
+                            CONCLUSÃO IMEDIATA: O marketing pagou para enviar 54 potenciais clientes para o Daniel, e todos foram perdidos.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="vendas" class="mb-16 scroll-mt-24 opacity-80 hover:opacity-100 transition-opacity">
+            <div class="mb-6 text-center">
+                <h2 class="text-2xl font-bold border-b-2 border-slate-300 pb-2 inline-block">4. Composição das Vendas (Congelada)</h2>
+                <p class="mt-4 text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                    Como não houve novas vendas neste período específico, o panorama dos R$ 21 mil gerados exclusivamente pelo Vendedor Junior permanece inalterado.
+                </p>
+            </div>
+
+            <div class="bg-white p-8 rounded-xl border border-slate-100 shadow-sm mx-auto max-w-4xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-4">Itens Faturados (Junior)</h3>
+                        <ul class="space-y-3 grayscale hover:grayscale-0 transition-all">
+                            <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#10b981]">
+                                <span class="mr-3 text-xl">&#x1F3B0;</span>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm">1x Sistema de Cassino Completo</p>
+                                </div>
+                                <span class="font-bold text-slate-800">R$ 13.000</span>
+                            </li>
+                            <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#3b82f6]">
+                                <span class="mr-3 text-xl">&#x1F4BB;</span>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm">2x Sistemas Antigos</p>
+                                </div>
+                                <span class="font-bold text-slate-800">R$ 5.000</span>
+                            </li>
+                            <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#f59e0b]">
+                                <span class="mr-3 text-xl">&#x1F4BE;</span>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm">1x Sistema Antigo</p>
+                                </div>
+                                <span class="font-bold text-slate-800">R$ 3.000</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="acao" class="mb-16 scroll-mt-24">
+            <div class="mb-8 text-center">
+                <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-rose-800 pb-2 inline-block">5. Medidas de Emergência</h2>
+                <p class="mt-4 text-slate-600 leading-relaxed max-w-3xl mx-auto">
+                    A situação exige intervenção imediata no fluxo de vendas. O tráfego está validado, barato e abundante, mas precisa ser direcionado para quem fecha negócio.
+                </p>
+            </div>
+
+            <div class="max-w-4xl mx-auto space-y-4">
+                
+                <div class="bg-white border-2 border-rose-500 rounded-lg overflow-hidden shadow-md">
+                    <button class="w-full px-6 py-5 text-left font-bold text-rose-700 hover:bg-rose-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
+                        &#x26A0;&#xFE0F; Ação 1: Interromper Fluxo para o Vendedor Daniel
+                        <span class="text-rose-400 transform transition-transform duration-200">&#x25BC;</span>
+                    </button>
+                    <div class="accordion-content bg-rose-50 px-6 text-slate-800 border-t border-rose-100">
+                        <div class="py-5">
+                            <p class="font-semibold mb-2">Retire IMEDIATAMENTE o botão de WhatsApp do Daniel do site.</p>
+                            <p>Ele recebeu 54 leads (a maioria do site) e sua taxa de conversão é 0%. Cada dia que o botão dele continua lá, a empresa está literalmente jogando dinheiro de anúncio fora. Redirecione 100% dos cliques para o Junior temporariamente.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-300 rounded-lg overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
+                        &#x1F4DD; Ação 2: Investigar o Atendimento (Shadowing)
+                        <span class="text-slate-400 transform transition-transform duration-200">&#x25BC;</span>
+                    </button>
+                    <div class="accordion-content bg-slate-50 px-6 text-slate-700 border-t border-slate-200">
+                        <div class="py-5">
+                            <p>Abra o WhatsApp do Daniel e leia as conversas com os últimos 20 leads. Descubra:</p>
+                            <ul class="list-disc pl-6 mt-3 space-y-2">
+                                <li>Tempo médio de resposta (está demorando horas para responder um lead quente?)</li>
+                                <li>Postura na objeção de preço (ele desiste fácil?)</li>
+                                <li>Falta de acompanhamento (follow-up). Ele fala uma vez e esquece do cliente?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-blue-300 rounded-lg overflow-hidden shadow-sm">
+                    <button class="w-full px-6 py-5 text-left font-bold text-blue-800 hover:bg-blue-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
+                        &#x1F680; Ação 3: Escala Focada no Carrossel
+                        <span class="text-blue-400 transform transition-transform duration-200">&#x25BC;</span>
+                    </button>
+                    <div class="accordion-content bg-blue-50 px-6 text-slate-700 border-t border-blue-200">
+                        <div class="py-5">
+                            <p>Do lado do marketing, a estratégia está perfeita. A campanha <strong>"pagina home + carrossel"</strong> gerou milhares de cliques a R$ 0,13 e contatos a R$ 0,42.</p>
+                            <p class="mt-2">Manteremos o foco do orçamento nela e nas campanhas ativas "Grandes casas", garantindo que a "torneira de leads" continue aberta (mas agora direcionada para quem vende).</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <footer class="mt-20 border-t border-slate-200 pt-8 pb-12 text-center text-slate-500 text-sm">
+            <p>Relatório Analítico de Conversão. Atualizado em Março de 2026 com base em logs de tráfego (Meta) e métricas On-page (Wix).</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // Chart.js Default Configs
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#475569';
+        Chart.defaults.plugins.tooltip.padding = 12;
+        Chart.defaults.plugins.tooltip.cornerRadius = 8;
+        Chart.defaults.plugins.tooltip.titleFont = { size: 14, weight: 'bold' };
+        Chart.defaults.plugins.tooltip.bodyFont = { size: 13 };
+
+        // 1. Ads Performance Chart (Horizontal Bar) - UPDATED
+        const ctxAds = document.getElementById('adsChart').getContext('2d');
+        new Chart(ctxAds, {
+            type: 'bar',
+            data: {
+                labels: ['Carrossel (Ativo)', 'Grandes Casas (Ativo)', 'Stories 20% (Pausado)'],
+                datasets: [
+                    {
+                        label: 'Gasto Total (R$)',
+                        data: [1040.26, 291.38, 465.21],
+                        backgroundColor: '#3b82f6', // Blue
+                        borderRadius: 4
+                    },
+                    {
+                        label: 'Custo p/ Contato (R$)',
+                        data: [0.42, 0.40, 116.30],
+                        backgroundColor: '#f43f5e', // Rose
+                        borderRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { display: false }
+                    },
+                    y: {
+                        grid: { color: '#f1f5f9' }
+                    }
+                },
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.parsed.x !== null) {
+                                    label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.x);
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 2. The Gap Chart (Mixed Bar) - UPDATED TO SHOW GRAVITY
+        const ctxGap = document.getElementById('gapChart').getContext('2d');
+        new Chart(ctxGap, {
+            type: 'bar',
+            data: {
+                labels: ['Daniel (Gargalo)', 'Junior (Alta Perf.)'],
+                datasets: [
+                    {
+                        label: 'Leads no Site (Cliques)',
+                        data: [54, 40],
+                        backgroundColor: ['#f43f5e', '#64748b'], // Red for Daniel to show warning
+                        yAxisID: 'y',
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    },
+                    {
+                        label: 'Faturamento Gerado (R$)',
+                        data: [0, 21000],
+                        backgroundColor: '#10b981', // Emerald for Sales
+                        yAxisID: 'y1',
+                        borderRadius: 6,
+                        barPercentage: 0.5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { weight: 'bold' } }
+                    },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Qtd. de Contatos' },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Faturamento (R$)' },
+                        grid: { display: false },
+                        ticks: {
+                            callback: function(value) {
+                                return 'R$ ' + (value/1000) + 'k';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) { label += ': '; }
+                                if (context.datasetIndex === 1) { // Faturamento
+                                    label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
+                                } else {
+                                    label += context.parsed.y + ' leads recebidos';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // 3. Sales Breakdown Chart (Doughnut) - UNCHANGED
+        const ctxSales = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctxSales, {
+            type: 'doughnut',
+            data: {
+                labels: ['Cassino Completo', 'Sistemas Antigos (x2)', 'Sistema Antigo (Custom)'],
+                datasets: [{
+                    data: [13000, 5000, 3000],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { padding: 20, usePointStyle: true }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const value = context.parsed;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((value / total) * 100);
+                                const formattedValue = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+                                return ` ${formattedValue} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            },
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: function(chart) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 150).toFixed(2);
+                    ctx.font = "bold " + fontSize + "em Inter";
+                    ctx.textBaseline = "middle";
+                    ctx.fillStyle = "#1e293b";
+
+                    var text = "R$ 21k",
+                        textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = (height / 2) - 10;
+
+                    ctx.fillText(text, textX, textY);
+                    
+                    ctx.font = "normal " + (fontSize/2.5).toFixed(2) + "em Inter";
+                    ctx.fillStyle = "#64748b";
+                    var text2 = "Total",
+                        textX2 = Math.round((width - ctx.measureText(text2).width) / 2),
+                        textY2 = textY + 25;
+                        
+                    ctx.fillText(text2, textX2, textY2);
+                    ctx.save();
+                }
+            }]
+        });
+
+        // Interactive Accordion Logic
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('span');
+            
+            // Close all others (Optional - remove if you want multiple open)
+            document.querySelectorAll('.accordion-content').forEach(el => {
+                if(el !== content && el.classList.contains('active')) {
+                    el.classList.remove('active');
+                    el.previousElementSibling.querySelector('span').style.transform = 'rotate(0deg)';
+                }
+            });
+
+            content.classList.toggle('active');
+            if (content.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>
