@@ -9,13 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <!-- Chosen Palette: Light Slate Base, White Cards, Accents in Emerald (Success), Blue (Corporate), Rose (Warning - Aggravated) -->
-    <!-- Application Structure Plan: Mantida a estrutura de 5 seções do dashboard anterior. A grande mudança está na narrativa dos dados: O investimento quase triplicou, o volume de tráfego foi massivo, mas as vendas estagnaram. A seção "O Gargalo" agora serve como um alerta máximo de perda financeira (Leaky Bucket) focado no atendimento. -->
+    <!-- Application Structure Plan: Mantida a estrutura de 5 seções do dashboard anterior. A grande mudança está na narrativa dos dados: O investimento quase triplicou, o volume de tráfego foi massivo, mas as vendas estagnaram. A seção "O Gargalo" agora serve como um alerta máximo de perda financeira (Leaky Bucket) focado no atendimento e na discrepância de conversas do Daniel. -->
     <!-- Visualization & Content Choices:
     1. Resumo -> Cards Numéricos -> ROAS caiu para 6.5x devido ao aumento de gasto sem novas vendas.
     2. Tráfego -> Barras Horizontais -> Mostra a eficiência contínua do Meta Ads (CPC de R$0,23).
-    3. Gargalo -> Gráfico Misto -> Evidencia o aumento drástico de leads para o Daniel (54) vs Junior (40) e o abismo no faturamento (0 vs 21k).
+    3. Gargalo -> Gráfico Misto -> Evidencia o aumento drástico de leads para o Daniel (54 cliques vs 5 conversas) e o abismo no faturamento (0 vs 21k).
     4. Vendas -> Doughnut -> Mantido (faturamento não alterou).
-    5. Ações -> Accordion -> Foco total em travar a distribuição de leads para o vendedor que não converte.
+    5. Ações -> Accordion -> Foco total em travar a distribuição de leads para o vendedor que não converte e auditar o WhatsApp.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
@@ -101,9 +101,9 @@
 
         <section id="resumo" class="mb-16 scroll-mt-24">
             <div class="mb-6">
-                <h2 class="text-2xl font-bold border-b-2 border-slate-400 pb-2 inline-block">1. O Cenário Atual (Investimento vs Retorno)</h2>
+                <h2 class="text-2xl font-bold border-b-2 border-slate-400 pb-2 inline-block">1. O Cenário Atual (Alerta Vermelho)</h2>
                 <p class="mt-4 text-slate-600 leading-relaxed">
-                    Neste ciclo, escalamos significativamente o investimento em tráfego pago. As campanhas entregaram um volume massivo de impressões e cliques a um custo muito baixo. <strong>Contudo, o faturamento da empresa estagnou.</strong> O ROAS diminuiu, o que indica que o marketing enviou mais clientes, mas a equipe comercial não conseguiu fechar novos negócios.
+                    Neste ciclo, escalamos significativamente o investimento em tráfego pago. As campanhas entregaram um volume massivo de impressões e cliques a um custo muito baixo. <strong>No entanto, a realidade de vendas foi drasticamente alterada.</strong> Ocorreram cancelamentos (Cassino Completo) e correções de lançamentos errados no CRM. O faturamento real despencou para R$ 5.500, derrubando o ROAS para uma margem de risco.
                 </p>
             </div>
 
@@ -116,19 +116,19 @@
                     <p class="text-xs text-rose-500 font-medium mt-2">&#x2191; Aumento de R$ 1.978 no gasto</p>
                 </div>
 
-                <div class="stat-card bg-white rounded-xl p-6 border border-slate-200 shadow-sm flex flex-col justify-center items-center text-center relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-slate-400"></div>
+                <div class="stat-card bg-rose-50 rounded-xl p-6 border border-rose-200 shadow-sm flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-rose-500"></div>
                     <span class="text-4xl mb-3">&#x1F4B0;</span>
-                    <h3 class="text-sm uppercase tracking-wider text-slate-600 font-semibold mb-1">Faturamento Bruto</h3>
-                    <p class="text-4xl font-bold text-slate-700">R$ 21.000,00</p>
-                    <p class="text-xs text-slate-500 mt-2 font-medium">&#x2194; Estagnado (Sem novas vendas)</p>
+                    <h3 class="text-sm uppercase tracking-wider text-rose-700 font-semibold mb-1">Faturamento Real (Corrigido)</h3>
+                    <p class="text-4xl font-bold text-rose-700">R$ 5.500,00</p>
+                    <p class="text-xs text-rose-600 mt-2 font-medium">&#x2193; Queda brusca (Cancelamentos)</p>
                 </div>
 
                 <div class="stat-card bg-slate-800 rounded-xl p-6 shadow-md flex flex-col justify-center items-center text-center text-white relative">
-                    <span class="text-4xl mb-3">&#x1F504;</span>
-                    <h3 class="text-sm uppercase tracking-wider text-slate-300 font-semibold mb-1">Novo Retorno (ROAS)</h3>
-                    <p class="text-5xl font-bold">6,49x</p>
-                    <p class="text-sm text-slate-400 mt-2">Era 16,7x. A conversão despencou.</p>
+                    <span class="text-4xl mb-3">&#x26A0;&#xFE0F;</span>
+                    <h3 class="text-sm uppercase tracking-wider text-rose-400 font-semibold mb-1">Novo Retorno (ROAS)</h3>
+                    <p class="text-5xl font-bold text-rose-400">1,70x</p>
+                    <p class="text-sm text-slate-400 mt-2">Margem crítica. Próximo do prejuízo.</p>
                 </div>
             </div>
         </section>
@@ -183,15 +183,15 @@
                 <div class="absolute -top-4 -right-4 p-4 opacity-10 text-9xl">&#x1F6A8;</div>
                 
                 <div class="mb-6 relative z-10">
-                    <h2 class="text-3xl font-bold text-rose-800 pb-2 inline-block">3. ALERTA: O Balde Furado no Comercial</h2>
+                    <h2 class="text-3xl font-bold text-rose-800 pb-2 inline-block">3. ALERTA CRÍTICO: Falha de Roteamento (Danilo)</h2>
                     <p class="mt-4 text-slate-800 leading-relaxed font-medium text-lg">
-                        Os dados cruzados do Wix Analytics com o faturamento revelam uma situação crítica. O marketing enviou um grande volume de leads quentes, mas eles estão sendo desperdiçados no atendimento via WhatsApp.
+                        Temos uma contradição técnica gravíssima. O vendedor Danilo afirma categoricamente que <strong>não estão chegando leads</strong> no WhatsApp dele. Porém, o Wix registra 54 cliques diretos no seu botão. O Junior confirma que recebe leads normalmente.
                     </p>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 relative z-10">
                     <div class="bg-white p-4 rounded-xl shadow-sm border border-rose-100">
-                        <h4 class="text-center font-bold text-slate-700 mb-2">Cliques no WhatsApp vs Faturamento</h4>
+                        <h4 class="text-center font-bold text-slate-700 mb-2">Cliques no Site vs Faturamento</h4>
                         <div class="chart-container">
                             <canvas id="gapChart"></canvas>
                         </div>
@@ -199,19 +199,19 @@
                     
                     <div class="flex flex-col justify-center space-y-6">
                         <div class="bg-white p-5 rounded-xl border-l-4 border-rose-600 shadow-sm">
-                            <h4 class="font-bold text-rose-800 text-lg mb-2">Desperdício de Oportunidades</h4>
-                            <p class="text-slate-700">No período de Fev a Março, o <strong>Vendedor Daniel recebeu 54 leads</strong> diretamente em seu botão de WhatsApp (57% de todas as oportunidades da página de contato).</p>
-                            <p class="text-xl font-black text-rose-600 mt-2">Vendas do Daniel: R$ 0,00</p>
+                            <h4 class="font-bold text-rose-800 text-lg mb-2">O Mistério do Danilo (54 cliques = 0 leads?)</h4>
+                            <p class="text-slate-700">O site registrou <strong>54 cliques</strong> no botão do Danilo. Se ele afirma que não chega nada, a conclusão lógica é uma falha técnica: <strong>o link do WhatsApp dele no site está quebrado, desatualizado ou caindo em outro número desconhecido.</strong></p>
+                            <p class="text-xl font-black text-rose-600 mt-2">Vendas: R$ 0,00</p>
                         </div>
                         
                         <div class="bg-white p-5 rounded-xl border-l-4 border-emerald-500 shadow-sm">
-                            <h4 class="font-bold text-emerald-800 text-lg mb-2">A Prova da Qualidade</h4>
-                            <p class="text-slate-700">O <strong>Vendedor Junior recebeu apenas 40 leads</strong>. Com menos oportunidades, ele gerou todo o faturamento da empresa.</p>
-                            <p class="text-xl font-black text-emerald-600 mt-2">Vendas do Junior: R$ 21.000,00</p>
+                            <h4 class="font-bold text-emerald-800 text-lg mb-2">A Prova de Funcionamento (Junior)</h4>
+                            <p class="text-slate-700">O vendedor <strong>Junior teve 40 cliques</strong>, atesta que os leads continuam chegando, e foi o responsável por sustentar os R$ 5.500 de faturamento que sobraram no mês.</p>
+                            <p class="text-xl font-black text-emerald-600 mt-2">Vendas do Junior: R$ 5.500,00</p>
                         </div>
 
                         <div class="bg-rose-700 text-white p-4 rounded-lg font-semibold text-center text-lg shadow-inner">
-                            CONCLUSÃO IMEDIATA: O marketing pagou para enviar 54 potenciais clientes para o Daniel, e todos foram perdidos.
+                            CONCLUSÃO IMEDIATA: O marketing está enviando clientes quentes para um "buraco negro" no botão do Danilo.
                         </div>
                     </div>
                 </div>
@@ -220,9 +220,9 @@
 
         <section id="vendas" class="mb-16 scroll-mt-24 opacity-80 hover:opacity-100 transition-opacity">
             <div class="mb-6 text-center">
-                <h2 class="text-2xl font-bold border-b-2 border-slate-300 pb-2 inline-block">4. Composição das Vendas (Congelada)</h2>
+                <h2 class="text-2xl font-bold border-b-2 border-slate-300 pb-2 inline-block">4. Composição das Vendas (Realidade Atual)</h2>
                 <p class="mt-4 text-slate-500 leading-relaxed max-w-2xl mx-auto">
-                    Como não houve novas vendas neste período específico, o panorama dos R$ 21 mil gerados exclusivamente pelo Vendedor Junior permanece inalterado.
+                    Após cancelamento da venda do Cassino Completo pelo cliente e a correção de lançamentos errados passados pela equipe comercial, este é o cenário real faturado pelo Junior.
                 </p>
             </div>
 
@@ -235,26 +235,26 @@
                     <div>
                         <h3 class="text-xl font-bold text-slate-800 mb-4">Itens Faturados (Junior)</h3>
                         <ul class="space-y-3 grayscale hover:grayscale-0 transition-all">
-                            <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#10b981]">
-                                <span class="mr-3 text-xl">&#x1F3B0;</span>
-                                <div class="flex-1">
-                                    <p class="font-semibold text-sm">1x Sistema de Cassino Completo</p>
-                                </div>
-                                <span class="font-bold text-slate-800">R$ 13.000</span>
-                            </li>
                             <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#3b82f6]">
                                 <span class="mr-3 text-xl">&#x1F4BB;</span>
                                 <div class="flex-1">
-                                    <p class="font-semibold text-sm">2x Sistemas Antigos</p>
+                                    <p class="font-semibold text-sm">1x Sistema Antigo (Padrão)</p>
                                 </div>
-                                <span class="font-bold text-slate-800">R$ 5.000</span>
+                                <span class="font-bold text-slate-800">R$ 2.500</span>
                             </li>
                             <li class="flex items-center p-3 bg-slate-50 rounded border-l-4 border-[#f59e0b]">
                                 <span class="mr-3 text-xl">&#x1F4BE;</span>
                                 <div class="flex-1">
-                                    <p class="font-semibold text-sm">1x Sistema Antigo</p>
+                                    <p class="font-semibold text-sm">1x Sistema Antigo (Custom)</p>
                                 </div>
                                 <span class="font-bold text-slate-800">R$ 3.000</span>
+                            </li>
+                            <li class="flex items-center p-3 bg-rose-50 rounded border-l-4 border-rose-500 opacity-60">
+                                <span class="mr-3 text-xl">&#x274C;</span>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-sm line-through text-rose-700">Cassino Completo (Desistência)</p>
+                                </div>
+                                <span class="font-bold text-rose-700">- R$ 13.000</span>
                             </li>
                         </ul>
                     </div>
@@ -264,9 +264,9 @@
 
         <section id="acao" class="mb-16 scroll-mt-24">
             <div class="mb-8 text-center">
-                <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-rose-800 pb-2 inline-block">5. Medidas de Emergência</h2>
+                <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-rose-600 to-rose-800 pb-2 inline-block">5. Medidas de Emergência (Plano de Ação)</h2>
                 <p class="mt-4 text-slate-600 leading-relaxed max-w-3xl mx-auto">
-                    A situação exige intervenção imediata no fluxo de vendas. O tráfego está validado, barato e abundante, mas precisa ser direcionado para quem fecha negócio.
+                    O cenário mudou de "vendedor que não converte" para uma provável <strong>falha técnica severa</strong> no site e <strong>instabilidade na qualificação (desistências pós-venda)</strong>.
                 </p>
             </div>
 
@@ -274,29 +274,29 @@
                 
                 <div class="bg-white border-2 border-rose-500 rounded-lg overflow-hidden shadow-md">
                     <button class="w-full px-6 py-5 text-left font-bold text-rose-700 hover:bg-rose-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
-                        &#x26A0;&#xFE0F; Ação 1: Interromper Fluxo para o Vendedor Daniel
+                        &#x1F527; Ação 1: Consertar o Link do Danilo (URGENTE)
                         <span class="text-rose-400 transform transition-transform duration-200">&#x25BC;</span>
                     </button>
                     <div class="accordion-content bg-rose-50 px-6 text-slate-800 border-t border-rose-100">
                         <div class="py-5">
-                            <p class="font-semibold mb-2">Retire IMEDIATAMENTE o botão de WhatsApp do Daniel do site.</p>
-                            <p>Ele recebeu 54 leads (a maioria do site) e sua taxa de conversão é 0%. Cada dia que o botão dele continua lá, a empresa está literalmente jogando dinheiro de anúncio fora. Redirecione 100% dos cliques para o Junior temporariamente.</p>
+                            <p class="font-semibold mb-2">O Wix não mente sobre os cliques nos botões da página.</p>
+                            <p>Se o Danilo atesta que os leads não estão chegando, e o botão dele tem 54 cliques, o link configurado no site está direcionando para o "vazio". Verifique imediatamente se o link API do WhatsApp dele está sem o DDI (+55), com um dígito errado, ou configurado com o número de um ex-funcionário. <strong>Até validar, remova o botão dele do site.</strong></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="bg-white border border-slate-300 rounded-lg overflow-hidden shadow-sm">
                     <button class="w-full px-6 py-5 text-left font-bold text-slate-800 hover:bg-slate-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
-                        &#x1F4DD; Ação 2: Investigar o Atendimento (Shadowing)
+                        &#x1F50D; Ação 2: Entender a Desistência (Cassino de 13k)
                         <span class="text-slate-400 transform transition-transform duration-200">&#x25BC;</span>
                     </button>
                     <div class="accordion-content bg-slate-50 px-6 text-slate-700 border-t border-slate-200">
                         <div class="py-5">
-                            <p>Abra o WhatsApp do Daniel e leia as conversas com os últimos 20 leads. Descubra:</p>
+                            <p>A perda de uma venda de R$ 13.000 destruiu a margem de lucro deste ciclo. É crucial auditar o motivo dessa quebra:</p>
                             <ul class="list-disc pl-6 mt-3 space-y-2">
-                                <li>Tempo médio de resposta (está demorando horas para responder um lead quente?)</li>
-                                <li>Postura na objeção de preço (ele desiste fácil?)</li>
-                                <li>Falta de acompanhamento (follow-up). Ele fala uma vez e esquece do cliente?</li>
+                                <li>O cliente desistiu por demora no atendimento/suporte pós-venda?</li>
+                                <li>Faltou alinhamento de expectativas do Vendedor Junior sobre os recursos do sistema?</li>
+                                <li><strong>Lançamentos errados:</strong> Auditar com o Junior o motivo do reporte de vendas inexistentes para garantir previsibilidade de caixa.</li>
                             </ul>
                         </div>
                     </div>
@@ -304,13 +304,13 @@
 
                 <div class="bg-white border border-blue-300 rounded-lg overflow-hidden shadow-sm">
                     <button class="w-full px-6 py-5 text-left font-bold text-blue-800 hover:bg-blue-50 focus:outline-none flex justify-between items-center text-lg" onclick="toggleAccordion(this)">
-                        &#x1F680; Ação 3: Escala Focada no Carrossel
+                        &#x1F680; Ação 3: Direcionar Todo o Tráfego para o Junior
                         <span class="text-blue-400 transform transition-transform duration-200">&#x25BC;</span>
                     </button>
                     <div class="accordion-content bg-blue-50 px-6 text-slate-700 border-t border-blue-200">
                         <div class="py-5">
-                            <p>Do lado do marketing, a estratégia está perfeita. A campanha <strong>"pagina home + carrossel"</strong> gerou milhares de cliques a R$ 0,13 e contatos a R$ 0,42.</p>
-                            <p class="mt-2">Manteremos o foco do orçamento nela e nas campanhas ativas "Grandes casas", garantindo que a "torneira de leads" continue aberta (mas agora direcionada para quem vende).</p>
+                            <p>Do lado do marketing, a campanha <strong>"pagina home + carrossel"</strong> continua impecável e barata.</p>
+                            <p class="mt-2">Como o Junior comprovou que os leads estão caindo corretamente no número dele (e realizando algumas compras), todo o tráfego deve ser roteado exclusivamente para ele até que o link do Danilo seja testado e restabelecido perfeitamente.</p>
                         </div>
                     </div>
                 </div>
@@ -333,7 +333,7 @@
         Chart.defaults.plugins.tooltip.titleFont = { size: 14, weight: 'bold' };
         Chart.defaults.plugins.tooltip.bodyFont = { size: 13 };
 
-        // 1. Ads Performance Chart (Horizontal Bar) - UPDATED
+        // 1. Ads Performance Chart (Horizontal Bar)
         const ctxAds = document.getElementById('adsChart').getContext('2d');
         new Chart(ctxAds, {
             type: 'bar',
@@ -385,15 +385,15 @@
             }
         });
 
-        // 2. The Gap Chart (Mixed Bar) - UPDATED TO SHOW GRAVITY
+        // 2. The Gap Chart (Mixed Bar) - Clarifying "Cliques"
         const ctxGap = document.getElementById('gapChart').getContext('2d');
         new Chart(ctxGap, {
             type: 'bar',
             data: {
-                labels: ['Daniel (Gargalo)', 'Junior (Alta Perf.)'],
+                labels: ['Danilo (Link Quebrado?)', 'Junior (Alta Perf.)'],
                 datasets: [
                     {
-                        label: 'Leads no Site (Cliques)',
+                        label: 'Cliques no Botão (Wix)',
                         data: [54, 40],
                         backgroundColor: ['#f43f5e', '#64748b'], // Red for Daniel to show warning
                         yAxisID: 'y',
@@ -402,7 +402,7 @@
                     },
                     {
                         label: 'Faturamento Gerado (R$)',
-                        data: [0, 21000],
+                        data: [0, 5500],
                         backgroundColor: '#10b981', // Emerald for Sales
                         yAxisID: 'y1',
                         borderRadius: 6,
@@ -426,7 +426,7 @@
                         type: 'linear',
                         display: true,
                         position: 'left',
-                        title: { display: true, text: 'Qtd. de Contatos' },
+                        title: { display: true, text: 'Qtd. de Cliques' },
                         grid: { color: '#f1f5f9' }
                     },
                     y1: {
@@ -451,7 +451,7 @@
                                 if (context.datasetIndex === 1) { // Faturamento
                                     label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
                                 } else {
-                                    label += context.parsed.y + ' leads recebidos';
+                                    label += context.parsed.y + ' cliques no site';
                                 }
                                 return label;
                             }
@@ -461,15 +461,15 @@
             }
         });
 
-        // 3. Sales Breakdown Chart (Doughnut) - UNCHANGED
+        // 3. Sales Breakdown Chart (Doughnut)
         const ctxSales = document.getElementById('salesChart').getContext('2d');
         new Chart(ctxSales, {
             type: 'doughnut',
             data: {
-                labels: ['Cassino Completo', 'Sistemas Antigos (x2)', 'Sistema Antigo (Custom)'],
+                labels: ['Sistema Antigo (Padrão)', 'Sistema Antigo (Custom)'],
                 datasets: [{
-                    data: [13000, 5000, 3000],
-                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b'],
+                    data: [2500, 3000],
+                    backgroundColor: ['#3b82f6', '#f59e0b'],
                     borderWidth: 0,
                     hoverOffset: 10
                 }]
@@ -509,7 +509,7 @@
                     ctx.textBaseline = "middle";
                     ctx.fillStyle = "#1e293b";
 
-                    var text = "R$ 21k",
+                    var text = "R$ 5.5k",
                         textX = Math.round((width - ctx.measureText(text).width) / 2),
                         textY = (height / 2) - 10;
 
@@ -532,7 +532,7 @@
             const content = element.nextElementSibling;
             const icon = element.querySelector('span');
             
-            // Close all others (Optional - remove if you want multiple open)
+            // Close all others (Optional)
             document.querySelectorAll('.accordion-content').forEach(el => {
                 if(el !== content && el.classList.contains('active')) {
                     el.classList.remove('active');
